@@ -108,7 +108,8 @@ def update_output_container(selected_statistics, input_year):
                                 title="Average Automobile Sales by Vehicle_type during Recession"))
 
 # Plot 4 bar chart for the effect of unemployment rate on vehicle type and sales
-        R_chart4  = dcc.Graph(figure=px.bar(recession_data, 
+        unemp_rec = recession_data.groupby(['unemployment_rate', 'Vehicle_Type'])['Automobile_Sales'].mean().reset_index()
+        R_chart4  = dcc.Graph(figure=px.bar(unemp_rec, 
                                 x='unemployment_rate', y='Automobile_Sales',
                                 color='Vehicle_Type',
                                 title="Average Automobile Sales by Vehicle_type during Recession"))
@@ -133,7 +134,7 @@ def update_output_container(selected_statistics, input_year):
             title="Average Automobile Sales over Whole Period"))
             
 # Plot 2 Total Monthly Automobile sales using line chart.
-        Y_chart2 = dcc.Graph(figure=px.line(data, 
+        Y_chart2 = dcc.Graph(figure=px.line(yearly_data, 
             x='Month',
             y='Automobile_Sales',
             title="Total Monthly Automobile Sales over Whole Period"))
@@ -154,8 +155,8 @@ def update_output_container(selected_statistics, input_year):
 
 #TASK 2.6: Returning the graphs for displaying Yearly data
         return [
-            html.Div(className='chart-item', children=[html.Div(Y_chart1),html.Div(Y_chart2)]),
-            html.Div(className='chart-item', children=[html.Div(Y_chart3),html.Div(Y_chart4)])
+            html.Div(className='chart-item', children=[html.Div(children = Y_chart1),html.Div(children = Y_chart2)]),
+            html.Div(className='chart-item', children=[html.Div(children = Y_chart3),html.Div(children = Y_chart4)])
                 ]        
     else:
         return None
